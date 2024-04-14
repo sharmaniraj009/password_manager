@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -93,6 +94,8 @@ public class RegisterPage extends JFrame {
 
     }
 
+    public int id;
+
     public void performRegistration() throws SQLException {
         String fullName = fullNameField.getText();
         String email = emailField.getText();
@@ -149,6 +152,17 @@ public class RegisterPage extends JFrame {
             JOptionPane.showMessageDialog(this, "Registration successful!");
         } else {
             JOptionPane.showMessageDialog(this, "Registration failed.");
+        }
+
+        // Retrieve the id from the database
+        Statement idStatement = connection.createStatement();
+        ResultSet idResult = idStatement.executeQuery("SELECT id FROM register_user WHERE username = '" + username + "'");
+        if (idResult.next()) {
+            int id = idResult.getInt("id");
+            // Do something with the id
+            System.out.println("User ID: " + id);
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to retrieve id.");
         }
     }
     public static void main(String[] args) {

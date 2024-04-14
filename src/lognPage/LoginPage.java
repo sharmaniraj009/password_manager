@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -21,6 +23,7 @@ import successfulLoginFrame.SuccessfulLogin;
 public class LoginPage extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private int id;
 
     
         
@@ -98,70 +101,8 @@ public class LoginPage extends JFrame {
     }
 
 
-    // public void performRegistration() throws SQLException {
-
-
-
-    //     String fullName = fullNameField.getText();
-    //     String email = emailField.getText();
-    //     String username = usernameField.getText();
-    //     String password = new String(passwordField.getPassword());
-
-    //     Check if the fields are empty
-    //     if (fullName.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-    //         JOptionPane.showMessageDialog(this, "All fields must be filled out.");
-    //         return;
-    //     }
-
-    //     // Validate the email format
-    //     if (!email.matches("^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)*(\\.[a-zA-Z]{2,})$")) {
-    //         JOptionPane.showMessageDialog(this, "Please enter a valid email address.");
-    //         return;
-    //     }
-
-    //     // Check the length of the password
-    //     if (password.length() < 8) {
-    //         JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long.");
-    //         return;
-    //     }
-
-
-    //     // Hash the password
-    //     String hashedPassword;
-    //     try {
-    //         MessageDigest md = MessageDigest.getInstance("SHA-512");
-    //         md.update(password.getBytes());
-    //         byte[] digest = md.digest();
-    //         StringBuilder hexString = new StringBuilder();
-    //         for (byte b : digest) {
-    //             hexString.append(Integer.toHexString(0xFF & b));
-    //         }
-    //         hashedPassword = hexString.toString();
-    //     } catch (NoSuchAlgorithmException e) {
-    //         JOptionPane.showMessageDialog(this, "Error hashing the password.");
-    //         return;
-    //     }
-
-    //     // Store the user data in the database
-    //     String username1 = "root";
-    //     String password1 = "root";
-    //     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1, password1);
-    //     PreparedStatement statement = connection.prepareStatement("INSERT INTO register_user (full_name, email, username, password) VALUES (?, ?, ?, ?)");
-    //     statement.setString(1, fullName);
-    //     statement.setString(2, email);
-    //     statement.setString(3, username);
-    //     statement.setString(4, hashedPassword); // Use hashed password here
-    //     int rowsAffected = statement.executeUpdate();
-
-    //     if (rowsAffected > 0) {
-    //         JOptionPane.showMessageDialog(this, "Registration successful!");
-    //     } else {
-    //         JOptionPane.showMessageDialog(this, "Registration failed.");
-    //     }
-    // }
-
-
-    private void performLogin() throws NoSuchAlgorithmException, SQLException {
+    
+    public void performLogin() throws NoSuchAlgorithmException, SQLException {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
@@ -182,39 +123,68 @@ public class LoginPage extends JFrame {
         String hashedPassword = hexString.toString();
 
         // Check the username and hashed password in the databaseString
+        
         String username1 = "root";
         String password1 = "root";
-        Connection connection;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1, password1);
-//            Statement statement
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1, password1);
+        
+
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM register_user WHERE username = ? AND password = ?");
+        statement.setString(1, username);
+        statement.setString(2, hashedPassword);
+
+        ResultSet resultSet = statement.executeQuery();
+
+    
+    
+    // Declare and initialize the resultSet variable
+
+        if (resultSet.next()) {
+            JOptionPane.showMessageDialog(this, "Login successful!");
+
+
+            SuccessfulLogin obj = new SuccessfulLogin();
+            obj.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password.");
         }
 
+            
+        
+            Statement idStatement = connection.createStatement();
+            ResultSet idResult = idStatement.executeQuery("SELECT id FROM register_user WHERE username = '" + username + "'");
+            if (idResult.next()) {
+                int id = idResult.getInt("id");
+                // Do something with the id
+                System.out.println("User ID: " + id);
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to retrieve id.");
+            }
+            // Retrieve additional user information based on the id
+            
+        } 
+        
+        // public void retrieveUserInfo(String username) throws SQLExceptiom {
+        //     // Connect to the database
+        //     String username1 = "root";
+        //     String password1 = "root";
+        //     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1, password1);
 
-    PreparedStatement statement = connection.prepareStatement("SELECT * FROM register_user WHERE username = ? AND password = ?");
-    statement.setString(1, username);
-    statement.setString(2, hashedPassword);
+        //     // Prepare the SQL statement to retrieve user information
+        //     Statement idStatement = connection.createStatement();
+        //     ResultSet idResult = idStatement.executeQuery("SELECT id FROM register_user WHERE username = '" + username + "'");
+        //     if (idResult.next()) {
+        //         int id = idResult.getInt("id");
+        //         // Do something with the id
+        //         System.out.println("User ID: " + id);
+        //     } else {
+        //         JOptionPane.showMessageDialog(this, "Failed to retrieve id.");
+        //     }
 
-    ResultSet resultSet = statement.executeQuery(); // Declare and initialize the resultSet variable
-
-    if (resultSet.next()) {
-        JOptionPane.showMessageDialog(this, "Login successful!");
-
-
-        SuccessfulLogin obj = new SuccessfulLogin();
-        obj.setVisible(true);
-    } else {
-        JOptionPane.showMessageDialog(this, "Invalid username or password.");
-    }
-    
-    } 
-
-
-
-    public static void main(String[] args) {
+        //     // Close the database connection
+        //     connection.close();
+        // }
+        public static void main(String[] args) {
         SwingUtilities.invokeLater(LoginPage::new);
     }
 }
