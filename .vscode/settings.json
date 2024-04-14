@@ -1,0 +1,19 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "editor.fontSize": 15,
+    "editor.smoothScrolling": true,
+    "editor.stickyScroll.scrollWithEditor": true,
+    "workbench.list.smoothScrolling": true,
+    "workbench.list.scrollByPage": true,
+    "workbench.editor.wrapTabs": true,
+    "timeline.pageOnScroll": true,
+    "notebook.output.scrolling": false,
+    "notebook.stickyScroll.enabled": false,
+    "interactiveWindow.alwaysScrollOnNewCell": false,
+    "editor.scrollbar.ignoreHorizontalScrollbarInContentHeight": false,
+    "editor.minimap.autohide": false
+}
