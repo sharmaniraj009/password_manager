@@ -1,4 +1,5 @@
 package RegisterPage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -54,7 +55,7 @@ public class RegisterPage extends JFrame {
         // Create the register button
         JButton registerButton = new JButton("Register");
         // Create the register button
-        
+
         registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Add action listener to the register button
@@ -84,13 +85,11 @@ public class RegisterPage extends JFrame {
         mainPanel.add(registerButton);
         mainPanel.add(backButton);
 
-
         // Add the main panel to the frame
         add(mainPanel);
 
         // Show the frame
         setVisible(true);
-
 
     }
 
@@ -120,7 +119,6 @@ public class RegisterPage extends JFrame {
             return;
         }
 
-
         // Hash the password
         String hashedPassword;
         try {
@@ -140,8 +138,10 @@ public class RegisterPage extends JFrame {
         // Store the user data in the database
         String username1 = "root";
         String password1 = "root";
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1, password1);
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO register_user (full_name, email, username, password) VALUES (?, ?, ?, ?)");
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1,
+                password1);
+        PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO register_user (full_name, email, username, password) VALUES (?, ?, ?, ?)");
         statement.setString(1, fullName);
         statement.setString(2, email);
         statement.setString(3, username);
@@ -156,7 +156,8 @@ public class RegisterPage extends JFrame {
 
         // Retrieve the id from the database
         Statement idStatement = connection.createStatement();
-        ResultSet idResult = idStatement.executeQuery("SELECT id FROM register_user WHERE username = '" + username + "'");
+        ResultSet idResult = idStatement
+                .executeQuery("SELECT id FROM register_user WHERE username = '" + username + "'");
         if (idResult.next()) {
             int id = idResult.getInt("id");
             // Do something with the id
@@ -167,7 +168,6 @@ public class RegisterPage extends JFrame {
     }
 
     public static void main(String[] args) {
-    SwingUtilities.invokeLater(() -> new RegisterPage());
+        SwingUtilities.invokeLater(() -> new RegisterPage());
+    }
 }
-}
-
