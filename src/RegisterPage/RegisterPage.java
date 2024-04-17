@@ -13,6 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * The RegisterPage class represents a user registration page in a password manager application.
+ * It extends the JFrame class to create a graphical user interface for the registration page.
+ * The RegisterPage class allows users to enter their full name, email, username, and password,
+ * and register their information in a database.
+ */
+
 @SuppressWarnings("unused")
 public class RegisterPage extends JFrame {
     protected static final String RegisterPage = null;

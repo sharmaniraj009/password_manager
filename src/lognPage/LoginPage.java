@@ -1,3 +1,10 @@
+/**
+ * The LoginPage class represents a login page where users can enter their username and password
+ * to log into the system. It provides functionality to perform the login operation by hashing
+ * the password using the SHA-512 algorithm and checking the username and hashed password in the database.
+ * If the login is successful, a success message is displayed and a new window is opened. Otherwise, 
+ * an error message is displayed.
+ */
 package lognPage;
 
 import javax.swing.*;
@@ -23,6 +30,10 @@ public class LoginPage extends JFrame {
     public String username1 = "root";
     public String password1 = "root";
 
+    /**
+     * Constructs a new LoginPage object.
+     * Sets up the frame and initializes the UI components.
+     */
     public LoginPage() {
         // Set up the frame
         setTitle("User Login");
@@ -49,8 +60,6 @@ public class LoginPage extends JFrame {
         // Create the login and register buttons
         JButton loginButton = new JButton("Login");
         JButton registerButton = new JButton("Register");
-
-        // JButton registerButton = new JButton("Register");
 
         // Add an action listener to the register button
         registerButton.addActionListener(new ActionListener() {
@@ -91,17 +100,13 @@ public class LoginPage extends JFrame {
     }
 
     /**
-     * Performs the login operation by retrieving the username and password from the
-     * input fields,
-     * hashing the password, and checking the username and hashed password in the
-     * database.
-     * If the login is successful, a success message is displayed and a new window
-     * is opened.
-     * If the login fails, an error message is displayed.
+     * Performs the login operation by retrieving the username and password from the input fields,
+     * hashing the password using SHA-512 algorithm, and checking the username and hashed password
+     * in the database. If the login is successful, a success message is displayed and a new window
+     * is opened. Otherwise, an error message is displayed.
      *
-     * @throws NoSuchAlgorithmException if the specified hashing algorithm is not
-     *                                  available.
-     * @throws SQLException             if a database access error occurs.
+     * @throws NoSuchAlgorithmException if the SHA-512 algorithm is not available
+     * @throws SQLException if a database access error occurs
      */
     public void performLogin() throws NoSuchAlgorithmException, SQLException {
         String username = usernameField.getText();
@@ -113,7 +118,6 @@ public class LoginPage extends JFrame {
             return;
         }
 
-        // Hash the password
         MessageDigest md = MessageDigest.getInstance("SHA-512");
         md.update(password.getBytes());
         byte[] digest = md.digest();
@@ -147,6 +151,13 @@ public class LoginPage extends JFrame {
         }
     }
 
+    /**
+     * Retrieves the ID associated with a given username from the user_database.
+     *
+     * @param username the username for which to retrieve the ID
+     * @return the ID associated with the username, or 0 if no ID is found
+     * @throws SQLException if a database access error occurs
+     */
     public int retrieveIdFromUsername(String username) throws SQLException {
         int id = 0;
         String username1 = "root";

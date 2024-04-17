@@ -35,7 +35,7 @@ public class SuccessfulLogin extends JFrame {
         LoginPage loginPage = new LoginPage();
         // String usernameinput = loginPage.usernameField.getText();
         // System.out.println("myId: " + Id);
-        setTitle("Successful Login");
+        setTitle("Password Manager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);
