@@ -94,7 +94,7 @@ public class RegisterPage extends JFrame {
 
     }
 
-    public int id;
+    // public int id;
 
     public void performRegistration() throws SQLException {
         String fullName = fullNameField.getText();
@@ -165,6 +165,7 @@ public class RegisterPage extends JFrame {
             JOptionPane.showMessageDialog(this, "Failed to retrieve id.");
         }
     }
+
     public static void main(String[] args) {
     SwingUtilities.invokeLater(() -> new RegisterPage());
 }

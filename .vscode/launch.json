@@ -1,0 +1,84 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "pswd_manager_e9625334"
+        },
+        {
+            "type": "java",
+            "name": "MessageDigestExample",
+            "request": "launch",
+            "mainClass": "MessageDigestExample",
+            "projectName": "pswd_manager_e9625334"
+        },
+        {
+            "type": "java",
+            "name": "RegisterPage",
+            "request": "launch",
+            "mainClass": "RegisterPage.RegisterPage",
+            "projectName": "pswd_manager_e9625334"
+        },
+        {
+            "type": "java",
+            "name": "LoginPage",
+            "request": "launch",
+            "mainClass": "lognPage.LoginPage",
+            "projectName": "pswd_manager_e9625334"
+        },
+        {
+            "type": "java",
+            "name": "SuccessfulLogin",
+            "request": "launch",
+            "mainClass": "successfulLoginFrame.SuccessfulLogin",
+            "projectName": "pswd_manager_e9625334"
+        },
+        {
+            "type": "java",
+            "name": "Main(1)",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "pswd_manager"
+        },
+        {
+            "type": "java",
+            "name": "MessageDigestExample(1)",
+            "request": "launch",
+            "mainClass": "MessageDigestExample",
+            "projectName": "pswd_manager"
+        },
+        {
+            "type": "java",
+            "name": "RegisterPage(1)",
+            "request": "launch",
+            "mainClass": "RegisterPage.RegisterPage",
+            "projectName": "pswd_manager"
+        },
+        {
+            "type": "java",
+            "name": "LoginPage(1)",
+            "request": "launch",
+            "mainClass": "lognPage.LoginPage",
+            "projectName": "pswd_manager"
+        },
+        {
+            "type": "java",
+            "name": "SuccessfulLogin(1)",
+            "request": "launch",
+            "mainClass": "successfulLoginFrame.SuccessfulLogin",
+            "projectName": "pswd_manager"
+        }
+    ]
+}

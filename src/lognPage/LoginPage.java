@@ -12,21 +12,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
 import RegisterPage.RegisterPage;
 import successfulLoginFrame.SuccessfulLogin;
 
 
 
 public class LoginPage extends JFrame {
-    private JTextField usernameField;
+    public JTextField usernameField;
     private JPasswordField passwordField;
-    private int id;
-
+    public static int id;
+    public String username1 = "root";
+    public String password1 = "root";
     
-        
+    
 
     public LoginPage() {
         // Set up the frame
@@ -84,10 +82,9 @@ public class LoginPage extends JFrame {
                 }
             }
         });
-        // 
+        
+ 
 
-
-       
 
         // Add the buttons to the main panel
         mainPanel.add(loginButton);
@@ -102,9 +99,21 @@ public class LoginPage extends JFrame {
 
 
     
+    /**
+     * Performs the login operation by retrieving the username and password from the input fields,
+     * hashing the password, and checking the username and hashed password in the database.
+     * If the login is successful, a success message is displayed and a new window is opened.
+     * If the login fails, an error message is displayed.
+     *
+     * @throws NoSuchAlgorithmException if the specified hashing algorithm is not available.
+     * @throws SQLException if a database access error occurs.
+     */
     public void performLogin() throws NoSuchAlgorithmException, SQLException {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
+
+        
+        
 
         // Check if the fields are empty
         if (username.isEmpty() || password.isEmpty()) {
@@ -127,63 +136,44 @@ public class LoginPage extends JFrame {
         String username1 = "root";
         String password1 = "root";
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1, password1);
-        
-
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM register_user WHERE username = ? AND password = ?");
         statement.setString(1, username);
         statement.setString(2, hashedPassword);
 
-        ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
-    
-    
-    // Declare and initialize the resultSet variable
+          
+        
+        // Declare and initialize the resultSet variable
 
-        if (resultSet.next()) {
-            JOptionPane.showMessageDialog(this, "Login successful!");
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "Login successful!");
+                SuccessfulLogin obj = new SuccessfulLogin();
+                obj.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password.");
+            }
+        }
 
-
-            SuccessfulLogin obj = new SuccessfulLogin();
-            obj.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password.");
+        public int retrieveIdFromUsername(String username) throws SQLException {
+            int id = 0;
+            String username1 = "root";
+            String password1 = "root";
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1, password1);
+            PreparedStatement statement = connection.prepareStatement("SELECT id FROM register_user WHERE username = ?");
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+                // System.out.println("id:" + id);
+            }
+            return id;
         }
 
             
         
-            Statement idStatement = connection.createStatement();
-            ResultSet idResult = idStatement.executeQuery("SELECT id FROM register_user WHERE username = '" + username + "'");
-            if (idResult.next()) {
-                int id = idResult.getInt("id");
-                // Do something with the id
-                System.out.println("User ID: " + id);
-            } else {
-                JOptionPane.showMessageDialog(this, "Failed to retrieve id.");
-            }
-            // Retrieve additional user information based on the id
             
-        } 
-        
-        // public void retrieveUserInfo(String username) throws SQLExceptiom {
-        //     // Connect to the database
-        //     String username1 = "root";
-        //     String password1 = "root";
-        //     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_database", username1, password1);
 
-        //     // Prepare the SQL statement to retrieve user information
-        //     Statement idStatement = connection.createStatement();
-        //     ResultSet idResult = idStatement.executeQuery("SELECT id FROM register_user WHERE username = '" + username + "'");
-        //     if (idResult.next()) {
-        //         int id = idResult.getInt("id");
-        //         // Do something with the id
-        //         System.out.println("User ID: " + id);
-        //     } else {
-        //         JOptionPane.showMessageDialog(this, "Failed to retrieve id.");
-        //     }
-
-        //     // Close the database connection
-        //     connection.close();
-        // }
         public static void main(String[] args) {
         SwingUtilities.invokeLater(LoginPage::new);
     }
